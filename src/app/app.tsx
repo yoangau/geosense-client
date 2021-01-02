@@ -2,6 +2,7 @@ import React from "react"
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import styled from "@emotion/styled"
 import Home from "../features/home/home"
+import Lobby from "../features/lobby/lobby"
 
 const AppContainer = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ export const App = () => {
     <AppContainer>
       <Router>
         <Switch>
+          <Route path="/lobby" component={Lobby} />
           <Route path="/" component={Home} />
         </Switch>
       </Router>
