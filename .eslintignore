@@ -1,0 +1,7 @@
+node_modules
+.vscode
+web-build
+**/*.json
+**/*.html
+**/*.md
+src/serviceWorker.ts
