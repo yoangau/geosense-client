@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
+    "@geist-ui/react": "^2.1.0-canary.2",
     "@reduxjs/toolkit": "^1.2.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
