@@ -14,6 +14,11 @@ ReactDOM.render(
         body {
           font-family: "Roboto Mono";
         }
+        *,
+        *:focus,
+        *:hover {
+          outline: none;
+        }
       `}
     />
     <Provider store={store}>
