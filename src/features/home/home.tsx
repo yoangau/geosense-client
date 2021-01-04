@@ -3,7 +3,7 @@ import { Text, Button } from "@geist-ui/react"
 import { MapPin, Map, Shuffle } from "@geist-ui/react-icons"
 import styled from "@emotion/styled"
 import { useHistory } from "react-router-dom"
-import Globe from "../globe/globe"
+import Globe from "./globe"
 
 const SimpleButton = styled(Button)`
   margin-top: 5px;
