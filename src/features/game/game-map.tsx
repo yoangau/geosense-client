@@ -18,8 +18,7 @@ const loadMap = () =>
   fetch("countries-110m.json")
     .then(response => response.json())
     .then(jsonData => {
-      const geoJson: any = feature(jsonData, jsonData.objects.countries)
-      geoJson.features = geoJson.features.filter((geo: any) => geo.properties.name !== "Antarctica")
+      const geoJson = feature(jsonData, jsonData.objects.countries)
 
       const projection = geoPatterson().fitSize([width, height], geoJson)
 
