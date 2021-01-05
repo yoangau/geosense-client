@@ -6,7 +6,7 @@ import styled from "@emotion/styled"
 import useAsync from "../../hooks/use-async"
 
 const width = 600
-const height = 300
+const height = 400
 
 const Map = styled.svg`
   stroke: #fff;
