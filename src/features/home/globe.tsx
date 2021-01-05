@@ -9,7 +9,7 @@ export const Globe = () => {
   const size = 300
 
   useEffect(() => {
-    fetch("countries-110m.json")
+    fetch("land-110m.json")
       .then(response => response.json())
       .then(jsonData => {
         const simpleTopo = simplify(presimplify(jsonData), 10)

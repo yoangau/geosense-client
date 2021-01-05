@@ -1,6 +1,6 @@
 import React from "react"
 import { Text, Button } from "@geist-ui/react"
-import { MapPin, Map, Shuffle } from "@geist-ui/react-icons"
+import { MapPin, Map, Globe as GlobeIcon } from "@geist-ui/react-icons"
 import styled from "@emotion/styled"
 import { useHistory } from "react-router-dom"
 import Globe from "./globe"
@@ -21,8 +21,8 @@ export const Home = () => {
       <SimpleButton type="secondary" ghost icon={<Map />} onClick={() => history.push("lobby")}>
         Create A Game
       </SimpleButton>
-      <SimpleButton type="secondary" ghost icon={<Shuffle />}>
-        Random game
+      <SimpleButton type="secondary" ghost icon={<GlobeIcon />}>
+        Free For All
       </SimpleButton>
     </>
   )
