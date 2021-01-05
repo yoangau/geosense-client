@@ -6,18 +6,21 @@ import styled from "@emotion/styled"
 import useAsync from "../../hooks/use-async"
 
 const width = 600
-const height = 400
+const height = 300
 
 const Map = styled.svg`
   stroke: #fff;
   stroke-width: 0.2;
 `
+type Point = [number, number]
 
 const loadMap = () =>
   fetch("countries-110m.json")
     .then(response => response.json())
     .then(jsonData => {
-      const geoJson = feature(jsonData, jsonData.objects.countries)
+      const geoJson: any = feature(jsonData, jsonData.objects.countries)
+      geoJson.features = geoJson.features.filter((geo: any) => geo.properties.name !== "Antarctica")
+
       const projection = geoPatterson().fitSize([width, height], geoJson)
 
       const geoGenerator = geoPath().projection(projection)
@@ -27,7 +30,7 @@ const loadMap = () =>
     })
 
 export const GameMap = () => {
-  const [points, changePoints] = useState<[number, number][]>([])
+  const [points, changePoints] = useState<Point[]>([])
   const { value } = useAsync(loadMap)
 
   if (!value) return <></>
@@ -37,7 +40,7 @@ export const GameMap = () => {
   const r = 4
 
   const addPoint = (event: any) => {
-    const point: [number, number] = [+event.nativeEvent.layerX, +event.nativeEvent.layerY]
+    const point: Point = [+event.nativeEvent.layerX, +event.nativeEvent.layerY]
     changePoints([...points, point])
     console.log(invertProjection(point))
   }
