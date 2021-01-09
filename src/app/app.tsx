@@ -1,7 +1,7 @@
 import React from "react"
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import styled from "@emotion/styled"
-import { Home, Lobby, Game } from "../features"
+import { Home, Group, Game } from "../features"
 
 const AppContainer = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const App = () => {
     <AppContainer>
       <Router>
         <Switch>
-          <Route path="/lobby" component={Lobby} />
+          <Route path="/lobby" component={Group} />
           <Route path="/game" component={Game} />
           <Route path="/" component={Home} />
         </Switch>

@@ -9,7 +9,7 @@ const SmallTable = styled.div`
   justify-content: center;
 `
 
-export const Lobby = () => {
+export const Group = () => {
   const history = useHistory()
 
   const data = [
@@ -60,4 +60,4 @@ export const Lobby = () => {
   )
 }
 
-export default Lobby
+export default Group
