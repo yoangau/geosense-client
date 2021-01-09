@@ -9,6 +9,10 @@ const width = 600
 const height = 400
 
 const Map = styled.svg`
+  &:hover,
+  &:focus {
+    cursor: crosshair;
+  }
   stroke: #fff;
   stroke-width: 0.2;
 `
