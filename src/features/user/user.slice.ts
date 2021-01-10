@@ -8,11 +8,6 @@ export interface UserRegisterInfo {
   color: string
 }
 
-enum Loading {
-  Idle,
-  Pending,
-}
-
 export interface User {
   id: number
   color: string
@@ -25,12 +20,12 @@ export interface User {
 
 export interface UserState {
   user?: User
-  loading: Loading
+  loading: boolean
   error?: string
 }
 
 const initialState: UserState = {
-  loading: Loading.Idle,
+  loading: false,
 }
 
 const userApi = new UserApi()
@@ -47,13 +42,14 @@ export const register = createAsyncThunk<
   "user/register",
   async (registerInfo, { rejectWithValue }) => {
     const response = await userApi.register(registerInfo)
+    console.log(response)
     if (!response.ok || !response.data) return rejectWithValue(response as ApiErrorResponse<User>)
     return response.data
   },
   {
     condition: (registerInfo, { getState }) => {
       const { loading }: UserState = getState().user
-      return loading === Loading.Idle
+      return !loading
     },
   },
 )
@@ -64,19 +60,19 @@ export const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(register.pending, state => {
-      if (state.loading === Loading.Idle) {
-        state.loading = Loading.Pending
+      if (!state.loading) {
+        state.loading = true
       }
     })
     builder.addCase(register.fulfilled, (state, action) => {
-      if (state.loading === Loading.Pending) {
-        state.loading = Loading.Idle
+      if (state.loading) {
+        state.loading = false
         state.user = action.payload
       }
     })
     builder.addCase(register.rejected, (state, action) => {
-      if (state.loading === Loading.Pending) {
-        state.loading = Loading.Idle
+      if (state.loading) {
+        state.loading = false
         state.error = action.payload?.originalError.message
       }
     })

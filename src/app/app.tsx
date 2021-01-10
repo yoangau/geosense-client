@@ -2,6 +2,7 @@ import React from "react"
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import styled from "@emotion/styled"
 import { Home, Group, Game } from "../features"
+import UserRegister from "../features/user/user-register"
 
 const AppContainer = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ export const App = () => {
     <AppContainer>
       <Router>
         <Switch>
+          <Route path="/user" component={UserRegister} />
           <Route path="/lobby" component={Group} />
           <Route path="/game" component={Game} />
           <Route path="/" component={Home} />
