@@ -2,27 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { ApiErrorResponse } from "apisauce"
 import UserApi from "../../api/http-api"
 import { RootState } from "../../app/root-reducer"
-
-export interface UserRegisterInfo {
-  name: string
-  color: string
-}
-
-export interface User {
-  id: number
-  color: string
-  dateCreated: Date
-  games: any[]
-  adminGroups: any[]
-  groups: any[]
-  isActive: boolean
-}
-
-export interface UserState {
-  user?: User
-  loading: boolean
-  error?: string
-}
+import { User, UserRegisterInfo, UserState } from "./user.interface"
 
 const initialState: UserState = {
   loading: false,

@@ -1,8 +1,8 @@
 import styled from "@emotion/styled"
 import { Button, Input, Text } from "@geist-ui/react"
+import { User as UserIcon } from "@geist-ui/react-icons"
 import React, { useState } from "react"
 import { CirclePicker } from "react-color"
-import { User } from "@geist-ui/react-icons"
 import { useDispatch, useSelector } from "react-redux"
 import { register, selectUser } from "./user.slice"
 
@@ -18,6 +18,7 @@ export const UserRegister = () => {
   const [name, setName] = useState("")
   const [color, setColor] = useState("")
   const { loading, error } = useSelector(selectUser)
+
   const dispatch = useDispatch()
 
   const registerUser = () => {
@@ -38,7 +39,7 @@ export const UserRegister = () => {
         type={error ? "error" : "secondary"}
         auto
         ghost
-        icon={<User />}
+        icon={<UserIcon />}
         disabled={loading}
         onClick={registerUser}
       >
