@@ -1,9 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import { Provider } from "react-redux"
 import { Global, css } from "@emotion/react"
 import App from "./app/app"
-import { store } from "./app/store"
 import * as serviceWorker from "./serviceWorker"
 import "@fontsource/roboto-mono"
 
@@ -21,9 +19,7 @@ ReactDOM.render(
         }
       `}
     />
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root"),
 )
