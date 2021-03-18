@@ -1,5 +1,5 @@
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
-import { User, UserRegisterInfo } from "../features/user/user.slice"
+import { User } from "../@types"
 
 export default class UserApi {
   private apisauce: ApisauceInstance
@@ -14,7 +14,7 @@ export default class UserApi {
     })
   }
 
-  async register(userInfo: UserRegisterInfo): Promise<ApiResponse<User>> {
+  async register(userInfo: unknown): Promise<ApiResponse<User>> {
     return this.apisauce.post("/user", userInfo)
   }
 }

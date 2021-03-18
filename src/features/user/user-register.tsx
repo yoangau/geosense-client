@@ -3,8 +3,6 @@ import { Button, Input, Text } from "@geist-ui/react"
 import { User as UserIcon } from "@geist-ui/react-icons"
 import React, { useState } from "react"
 import { CirclePicker } from "react-color"
-import { useDispatch, useSelector } from "react-redux"
-import { register, selectUser } from "./user.slice"
 
 const StyledCirclePicker = styled(CirclePicker)`
   margin-top: 15px;
@@ -17,13 +15,6 @@ const StyledRegisterButton = styled(Button)`
 export const UserRegister = () => {
   const [name, setName] = useState("")
   const [color, setColor] = useState("")
-  const { loading, error } = useSelector(selectUser)
-
-  const dispatch = useDispatch()
-
-  const registerUser = () => {
-    if (name && color) dispatch(register({ name, color }))
-  }
 
   return (
     <>
@@ -36,16 +27,16 @@ export const UserRegister = () => {
       />
       <StyledCirclePicker color={color} onChange={c => setColor(c.hex)} />
       <StyledRegisterButton
-        type={error ? "error" : "secondary"}
+        // type={error ? "error" : "secondary"}
         auto
         ghost
         icon={<UserIcon />}
-        disabled={loading}
-        onClick={registerUser}
+        // disabled={loading}
+        // onClick={registerUser}
       >
         Register
       </StyledRegisterButton>
-      {error && <Text small>{error}</Text>}
+      {/* {error && <Text small>{error}</Text>} */}
     </>
   )
 }
