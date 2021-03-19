@@ -5,6 +5,11 @@ export type UserSignUpParams = {
   color: string
 }
 
+export interface UserSignUpResponse {
+  user: User
+  token: string
+}
+
 export interface User {
   id: string
   color: string
