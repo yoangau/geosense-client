@@ -1,7 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { Global, css } from "@emotion/react"
-import App from "./app/app"
+import { RecoilRoot } from "recoil"
+import { App } from "./app/app"
 import "@fontsource/roboto-mono"
 
 ReactDOM.render(
@@ -18,7 +19,9 @@ ReactDOM.render(
         }
       `}
     />
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root"),
 )
