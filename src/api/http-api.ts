@@ -1,9 +1,14 @@
-import { ApisauceInstance, create } from "apisauce"
-import { Lobby, User, UserSignUpParams } from "../@types"
-import { getUserId, setUserId } from "../helpers/local-storage"
+import { ApisauceInstance, create, RequestTransform } from "apisauce"
+import { Lobby, User, UserSignUpParams, UserSignUpResponse } from "../@types"
+import { getUserToken, setUserToken } from "../helpers/local-storage"
 
 export default class HttpApi {
   private apisauce: ApisauceInstance
+
+  private static requestTransform: RequestTransform = request => {
+    const userToken = getUserToken()
+    request.headers.Authorization = `Bearer ${userToken}`
+  }
 
   constructor() {
     this.apisauce = create({
@@ -13,17 +18,20 @@ export default class HttpApi {
         "Content-Type": "application/json",
       },
     })
+    this.apisauce.addRequestTransform(HttpApi.requestTransform)
   }
 
   async signUp(userInfo: UserSignUpParams): Promise<User | undefined> {
-    const user = (await this.apisauce.post<User>("/user", userInfo)).data
-    if (user) setUserId(user.id)
+    const response = await this.apisauce.post<UserSignUpResponse>("/user", userInfo)
+    if (!response.ok || !response.data) return
+    const { user, token } = response.data
+    setUserToken(token)
     return user
   }
 
   async getUser(): Promise<User | undefined> {
-    const userId = getUserId()
-    return (await this.apisauce.get<User>("/user", { id: userId })).data
+    const response = await this.apisauce.get<User>("/user")
+    if (response.ok) return response.data
   }
 
   async createLobby(userId: string): Promise<Lobby | undefined> {
