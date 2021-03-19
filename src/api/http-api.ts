@@ -1,5 +1,5 @@
 import { ApisauceInstance, create } from "apisauce"
-import { User, UserSignUpParams } from "../@types"
+import { Lobby, User, UserSignUpParams } from "../@types"
 import { getUserId, setUserId } from "../helpers/local-storage"
 
 export default class HttpApi {
@@ -24,5 +24,9 @@ export default class HttpApi {
   async getUser(): Promise<User | undefined> {
     const userId = getUserId()
     return (await this.apisauce.get<User>("/user", { id: userId })).data
+  }
+
+  async createLobby(userId: string): Promise<Lobby | undefined> {
+    return (await this.apisauce.post<Lobby>("/lobby", { adminId: userId })).data
   }
 }

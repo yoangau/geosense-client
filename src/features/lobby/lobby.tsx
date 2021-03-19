@@ -1,21 +1,41 @@
 import React from "react"
 import { Button, Table, Text } from "@geist-ui/react"
-import { Users, User, UserCheck, Play } from "@geist-ui/react-icons"
+import { Users, User as GeistUser, UserCheck, Play } from "@geist-ui/react-icons"
 import styled from "@emotion/styled"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { userState } from "../user/user.atom"
+import HttpApi from "../../api/http-api"
+import { User } from "../../@types"
+import { lobbyState } from "./lobby.atom"
 
 const SmallTable = styled.div`
   max-width: min(90vw, 600px);
   justify-content: center;
 `
 
-export const Group = () => {
+const httpApi = new HttpApi()
+
+export const Lobby = () => {
   const history = useHistory()
+  const { lobbyId } = useParams<{ lobbyId: string | undefined }>()
+  const user = useRecoilValue(userState) as User
+  const lobby = useRecoilValue(lobbyState)
+  const setLobby = useSetRecoilState(lobbyState)
+
+  if (!lobbyId) {
+    httpApi.createLobby(user.id).then(l => {
+      setLobby(l)
+      history.replace(`/lobby/${l?.id}`)
+    })
+  }
+
+  console.log(lobby)
 
   const data = [
     {
       player: <Text>Yoan</Text>,
-      status: <User />,
+      status: <GeistUser />,
       control: (
         <Button type="error" auto size="mini" disabled>
           Remove
@@ -33,7 +53,7 @@ export const Group = () => {
     },
     {
       player: "David",
-      status: <User />,
+      status: <GeistUser />,
       control: (
         <Button type="error" auto size="mini">
           Remove
@@ -60,4 +80,4 @@ export const Group = () => {
   )
 }
 
-export default Group
+export default Lobby

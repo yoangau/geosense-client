@@ -1,3 +1,3 @@
 export * from "./home/home"
-export * from "./group/group"
+export * from "./lobby/lobby"
 export * from "./game/game"

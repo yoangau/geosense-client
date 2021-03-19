@@ -1,7 +1,7 @@
 import React, { Suspense } from "react"
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import styled from "@emotion/styled"
-import { Home, Group, Game } from "../features"
+import { Home, Lobby, Game } from "../features"
 import { AuthRoute } from "../features/auth/auth-route"
 import DebugObserver from "../helpers/debug-observer"
 
@@ -22,8 +22,8 @@ export const App = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Router>
           <Switch>
-            <AuthRoute path="/lobby" component={Group} />
-            <AuthRoute path="/game" component={Game} />
+            <AuthRoute path="/lobby/:lobbyId?" component={Lobby} />
+            <AuthRoute path="/game/:gameId" component={Game} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>
