@@ -2,7 +2,7 @@ import { ApisauceInstance, create } from "apisauce"
 import { User, UserSignUpParams } from "../@types"
 import { getUserId, setUserId } from "../helpers/local-storage"
 
-export default class UserApi {
+export default class HttpApi {
   private apisauce: ApisauceInstance
 
   constructor() {
