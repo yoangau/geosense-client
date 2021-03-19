@@ -1,14 +1,14 @@
-export interface UserRegisterInfo {
+export type UserSignUpParams = {
   name: string
   color: string
 }
 
 export interface User {
-  id: number
+  id: string
   color: string
-  dateCreated: Date
-  games: any[]
-  adminGroups: any[]
-  groups: any[]
+  dateCreated: string
+  games?: any[]
+  adminGroups?: any[]
+  groups?: any[]
   isActive: boolean
 }
