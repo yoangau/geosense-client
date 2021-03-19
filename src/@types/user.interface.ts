@@ -1,3 +1,5 @@
+import { Lobby } from "./lobby.interface"
+
 export type UserSignUpParams = {
   name: string
   color: string
@@ -8,7 +10,7 @@ export interface User {
   color: string
   dateCreated: string
   games?: any[]
-  adminGroups?: any[]
-  groups?: any[]
+  adminLobbies?: any[]
+  lobbies?: Lobby[]
   isActive: boolean
 }
