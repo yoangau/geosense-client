@@ -23,10 +23,10 @@ export const Lobby = () => {
   const lobby = useRecoilValue(lobbyState)
   const setLobby = useSetRecoilState(lobbyState)
 
-  if (!lobbyId) {
-    httpApi.createLobby(user.id).then(l => {
-      setLobby(l)
-      history.replace(`/lobby/${l?.id}`)
+  if (!lobbyId && !lobby) {
+    httpApi.createLobby(user.id).then(lob => {
+      setLobby(lob)
+      history.replace(`/lobby/${lob?.id}`)
     })
   }
 
