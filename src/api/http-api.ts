@@ -1,5 +1,6 @@
-import { ApiResponse, ApisauceInstance, create } from "apisauce"
-import { User, UserRegisterInfo } from "../features/user/user.slice"
+import { ApisauceInstance, create } from "apisauce"
+import { User, UserSignUpParams } from "../@types"
+import { getUserId, setUserId } from "../helpers/local-storage"
 
 export default class UserApi {
   private apisauce: ApisauceInstance
@@ -14,7 +15,14 @@ export default class UserApi {
     })
   }
 
-  async register(userInfo: UserRegisterInfo): Promise<ApiResponse<User>> {
-    return this.apisauce.post("/user", userInfo)
+  async signUp(userInfo: UserSignUpParams): Promise<User | undefined> {
+    const user = (await this.apisauce.post<User>("/user", userInfo)).data
+    if (user) setUserId(user.id)
+    return user
+  }
+
+  async getUser(): Promise<User | undefined> {
+    const userId = getUserId()
+    return (await this.apisauce.get<User>("/user", { id: userId })).data
   }
 }

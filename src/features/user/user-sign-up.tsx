@@ -1,10 +1,11 @@
 import styled from "@emotion/styled"
 import { Button, Input, Text } from "@geist-ui/react"
 import { User as UserIcon } from "@geist-ui/react-icons"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { CirclePicker } from "react-color"
-import { useDispatch, useSelector } from "react-redux"
-import { register, selectUser } from "./user.slice"
+import { useSetRecoilState } from "recoil"
+import UserApi from "../../api/http-api"
+import { userState } from "./user.atom"
 
 const StyledCirclePicker = styled(CirclePicker)`
   margin-top: 15px;
@@ -14,16 +15,29 @@ const StyledRegisterButton = styled(Button)`
   margin-top: 15px;
 `
 
-export const UserRegister = () => {
+const userApi = new UserApi()
+
+export const UserSignUp = () => {
   const [name, setName] = useState("")
   const [color, setColor] = useState("")
-  const { loading, error } = useSelector(selectUser)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
-  const dispatch = useDispatch()
+  const setUser = useSetRecoilState(userState)
 
-  const registerUser = () => {
-    if (name && color) dispatch(register({ name, color }))
-  }
+  useEffect(() => setError(""), [name, color])
+
+  const signUp = useCallback(async () => {
+    if (!name || !color) {
+      setError("The name and the color should be selected before submitting")
+      return
+    }
+    setLoading(true)
+    const signUpResponse = await userApi.signUp({ name, color })
+    setLoading(false)
+    setUser(signUpResponse)
+    setError(signUpResponse ? "" : "An error has occurred :(")
+  }, [name, color])
 
   return (
     <>
@@ -41,7 +55,7 @@ export const UserRegister = () => {
         ghost
         icon={<UserIcon />}
         disabled={loading}
-        onClick={registerUser}
+        onClick={signUp}
       >
         Register
       </StyledRegisterButton>
@@ -50,4 +64,4 @@ export const UserRegister = () => {
   )
 }
 
-export default UserRegister
+export default UserSignUp
