@@ -58,7 +58,7 @@ export default class SocketSocket {
 
   public constructor(onEvents: SocketOnRegister<any>) {
     const token = getUserToken()
-    this.socket = io("localhost:3001", {
+    this.socket = io("http://localhost:3001", {
       query: { token },
       autoConnect: false,
     })
