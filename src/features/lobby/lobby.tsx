@@ -15,7 +15,6 @@ const SmallTable = styled.div`
   max-width: min(90vw, 600px);
   justify-content: center;
 `
-
 const httpApi = new HttpApi()
 
 export const Lobby = () => {
@@ -24,25 +23,22 @@ export const Lobby = () => {
   const history = useHistory()
   const { lobbyId } = useParams<{ lobbyId: string | undefined }>()
   const user = useRecoilValue(userState) as User
-  const lobby = useRecoilValue(lobbyState)
+  // const lobby = useRecoilValue(lobbyState)
   const setLobby = useSetRecoilState(lobbyState)
 
   useEffect(() => {
-    setSocket(
-      new SocketApi({
-        [SocketOnType.Update]: console.log,
-      }),
-    )
-  }, [])
-
-  if (!lobbyId && !lobby) {
-    httpApi.createLobby(user.id).then(lob => {
-      setLobby(lob)
-      history.replace(`/lobby/${lob?.id}`)
+    const newSocket = new SocketApi({
+      [SocketOnType.Update]: setLobby,
     })
-  }
-
-  console.log(lobby)
+    setSocket(newSocket)
+    console.log(user.id, lobbyId)
+    if (lobbyId) newSocket.emit.join({ userId: user.id, lobbyId })
+    else
+      httpApi.createLobby(user.id).then(lob => {
+        setLobby(lob)
+        history.push(`/lobby/${lob?.id}`)
+      })
+  }, [])
 
   const data = [
     {
