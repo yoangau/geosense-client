@@ -61,6 +61,7 @@ export default class SocketSocket {
     this.socket = io("http://localhost:3001", {
       query: { token },
       autoConnect: false,
+      transports: ["websocket"],
     })
     this.on = SocketSocket.initSocket(SocketOnType, this.createOnApi)
     this.emit = SocketSocket.initSocket(SocketEmitType, this.createEmitApi)
