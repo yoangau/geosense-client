@@ -35,6 +35,6 @@ export default class HttpApi {
   }
 
   async createLobby(userId: string): Promise<Lobby | undefined> {
-    return (await this.apisauce.post<Lobby>("/lobby", { adminId: userId })).data
+    return (await this.apisauce.post<Lobby>("/lobby", { userId })).data
   }
 }
