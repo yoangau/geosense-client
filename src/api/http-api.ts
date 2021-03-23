@@ -37,4 +37,9 @@ export default class HttpApi {
   async createLobby(userId: string): Promise<Lobby | undefined> {
     return (await this.apisauce.post<Lobby>("/lobby", { userId })).data
   }
+
+  async getLobby(lobbyId: string): Promise<Lobby | undefined> {
+    const response = await this.apisauce.get<Lobby>("/lobby", { lobbyId })
+    if (response.ok) return response.data
+  }
 }
