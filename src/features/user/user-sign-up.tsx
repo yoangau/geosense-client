@@ -4,7 +4,7 @@ import { User as UserIcon } from "@geist-ui/react-icons"
 import React, { useCallback, useEffect, useState } from "react"
 import { CirclePicker } from "react-color"
 import { useSetRecoilState } from "recoil"
-import UserApi from "../../api/http-api"
+import HttpApi from "../../api/http-api"
 import { userState } from "./user.atom"
 
 const StyledCirclePicker = styled(CirclePicker)`
@@ -15,7 +15,7 @@ const StyledRegisterButton = styled(Button)`
   margin-top: 15px;
 `
 
-const userApi = new UserApi()
+const httpApi = new HttpApi()
 
 export const UserSignUp = () => {
   const [name, setName] = useState("")
@@ -33,7 +33,7 @@ export const UserSignUp = () => {
       return
     }
     setLoading(true)
-    const signUpResponse = await userApi.signUp({ name, color })
+    const signUpResponse = await httpApi.signUp({ name, color })
     setLoading(false)
     setUser(signUpResponse)
     setError(signUpResponse ? "" : "An error has occurred :(")

@@ -1,5 +1,5 @@
-const userIdKey = "@userId"
+const userIdKey = "@userToken"
 
-export const getUserId = (): string => localStorage.getItem(userIdKey) ?? ""
+export const getUserToken = (): string | null => localStorage.getItem(userIdKey)
 
-export const setUserId = (userId: string): void => localStorage.setItem(userIdKey, userId)
+export const setUserToken = (userToken: string): void => localStorage.setItem(userIdKey, userToken)
