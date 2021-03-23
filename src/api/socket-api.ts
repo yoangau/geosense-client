@@ -56,6 +56,10 @@ export default class SocketSocket {
 
   public emit: SocketEmit
 
+  disconnect(): void {
+    this.socket.disconnect()
+  }
+
   public constructor(onEvents: SocketOnRegister<any>) {
     const token = getUserToken()
     this.socket = io("http://localhost:3001", {
