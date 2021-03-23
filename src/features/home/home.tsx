@@ -18,7 +18,12 @@ export const Home = () => {
         <MapPin /> Geosense
       </Text>
       <Globe />
-      <SimpleButton type="secondary" ghost icon={<Map />} onClick={() => history.push("/lobby")}>
+      <SimpleButton
+        type="secondary"
+        ghost
+        icon={<Map />}
+        onClick={() => history.push("/create-lobby")}
+      >
         Create A Group
       </SimpleButton>
       <SimpleButton type="secondary" ghost icon={<GlobeIcon />}>
