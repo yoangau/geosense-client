@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { Text } from "@geist-ui/react"
+import { Loading, Text } from "@geist-ui/react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { Redirect } from "react-router-dom"
 import { lobbyState } from "./lobby.atom"
@@ -26,7 +26,11 @@ export const LobbyCreation = () => {
     return <Redirect to={`/lobby/${value.id}`} />
   }
 
-  return <Text>Your lobby is being created</Text>
+  return (
+    <Loading size="large">
+      <Text>Creating lobby</Text>
+    </Loading>
+  )
 }
 
 export default LobbyCreation
