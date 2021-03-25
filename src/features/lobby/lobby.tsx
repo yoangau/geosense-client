@@ -33,7 +33,7 @@ export const Lobby = () => {
     if (status === "success" && value && socket) {
       socket.emit.join({ userId: user.id, lobbyId: value.id })
     }
-    if (status === "error") history.push("/")
+    if (status === "error" || (status === "success" && !value)) history.push("/")
   }, [value, status, socket])
 
   useEffect(() => {
@@ -58,15 +58,18 @@ export const Lobby = () => {
       </Loading>
     )
 
+  const adminId = lobby.admin.id
+  const isAdmin = user.id === adminId
+
   const data = lobby.users.map(u => ({
     player: <Text style={{ color: u.color }}>{u.name}</Text>,
-    status: u.id === lobby.admin.id ? <Shield /> : <GeistUser />,
+    status: u.id === adminId ? <Shield /> : <GeistUser />,
     control: (
       <Button
         type="error"
         auto
         size="mini"
-        disabled={user.id !== lobby.admin.id || u.id === lobby.admin.id}
+        disabled={!isAdmin || u.id === adminId}
         onClick={() => socket?.emit.remove({ userId: u.id, adminId: user.id, lobbyId })}
       >
         Remove
@@ -86,9 +89,11 @@ export const Lobby = () => {
           <Table.Column prop="control" label="control" />
         </Table>
       </SmallTable>
-      <Button type="secondary" auto ghost icon={<Play />} onClick={() => history.push("/game")}>
-        Start Game
-      </Button>
+      {isAdmin && (
+        <Button type="secondary" auto ghost icon={<Play />} onClick={() => history.push("/game")}>
+          Start Game
+        </Button>
+      )}
     </SocketContext.Provider>
   )
 }
