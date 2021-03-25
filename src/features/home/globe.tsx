@@ -20,7 +20,8 @@ export const Globe = () => {
   const { value: geoJson } = useAsync(loadMap)
   const [rotation, changeRotation] = useState(0)
   useEffect(() => {
-    setTimeout(() => changeRotation(rotation + 0.2), 10)
+    const timeout = setTimeout(() => changeRotation(rotation + 0.2), 10)
+    return () => clearTimeout(timeout)
   }, [rotation])
 
   if (!geoJson) return <></>
