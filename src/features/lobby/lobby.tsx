@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Button, Loading, Table, Text } from "@geist-ui/react"
+import { Users, User as GeistUser, Play, Shield } from "@geist-ui/react-icons"
 import styled from "@emotion/styled"
 import { useHistory, useParams } from "react-router-dom"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { userState } from "../user/user.atom"
-import { User } from "../../@types"
+import { Lobby as LobbyType, User } from "../../@types"
 import { lobbyState } from "./lobby.atom"
 import { SocketContext } from "../../components/socket-context/socket.context"
 import SocketApi, { SocketOnType } from "../../api/socket-api"
@@ -38,7 +39,10 @@ export const Lobby = () => {
   useEffect(() => {
     socket?.disconnect()
     const newSocket = new SocketApi({
-      [SocketOnType.Update]: setLobby,
+      [SocketOnType.Update]: (l: LobbyType | undefined) => {
+        setLobby(l)
+        if (!l?.users.find(u => u.id === user.id)) history.push("/")
+      },
     })
     setSocket(newSocket)
     return () => {
@@ -55,33 +59,37 @@ export const Lobby = () => {
     )
 
   const data = lobby.users.map(u => ({
-    player: <Text>{u.name}</Text>,
-    status: <GeistUser />,
+    player: <Text style={{ color: u.color }}>{u.name}</Text>,
+    status: u.id === lobby.admin.id ? <Shield /> : <GeistUser />,
     control: (
-      <Button type="error" auto size="mini" disabled={user.id !== lobby.admin.id}>
+      <Button
+        type="error"
+        auto
+        size="mini"
+        disabled={user.id !== lobby.admin.id || u.id === lobby.admin.id}
+        onClick={() => socket?.emit.remove({ userId: u.id, adminId: user.id, lobbyId })}
+      >
         Remove
       </Button>
     ),
   }))
 
   return (
-    <>
-      <SocketContext.Provider value={socket}>
-        <Text h1>
-          <Users /> Lobby
-        </Text>
-        <SmallTable>
-          <Table data={data}>
-            <Table.Column prop="player" label="player" />
-            <Table.Column prop="status" label="status" />
-            <Table.Column prop="control" label="control" />
-          </Table>
-        </SmallTable>
-        <Button type="secondary" auto ghost icon={<Play />} onClick={() => history.push("/game")}>
-          Start Game
-        </Button>
-      </SocketContext.Provider>
-    </>
+    <SocketContext.Provider value={socket}>
+      <Text h1>
+        <Users /> Lobby
+      </Text>
+      <SmallTable>
+        <Table data={data}>
+          <Table.Column prop="player" label="player" />
+          <Table.Column prop="status" label="status" />
+          <Table.Column prop="control" label="control" />
+        </Table>
+      </SmallTable>
+      <Button type="secondary" auto ghost icon={<Play />} onClick={() => history.push("/game")}>
+        Start Game
+      </Button>
+    </SocketContext.Provider>
   )
 }
 
