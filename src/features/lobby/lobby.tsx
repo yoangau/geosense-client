@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { Button, Table, Text } from "@geist-ui/react"
-import { Users, User as GeistUser, Play } from "@geist-ui/react-icons"
+import { Button, Loading, Table, Text } from "@geist-ui/react"
 import styled from "@emotion/styled"
 import { useHistory, useParams } from "react-router-dom"
 import { useRecoilValue, useSetRecoilState } from "recoil"
@@ -48,7 +47,12 @@ export const Lobby = () => {
     }
   }, [lobbyId])
 
-  if (!lobby) return <Text>Lobby is being loaded</Text>
+  if (!lobby)
+    return (
+      <Loading size="large">
+        <Text>Loading lobby</Text>
+      </Loading>
+    )
 
   const data = lobby.users.map(u => ({
     player: <Text>{u.name}</Text>,
